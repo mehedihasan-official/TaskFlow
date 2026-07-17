@@ -17,7 +17,7 @@ export default function Index() {
     toggleTask(id);
   };
 
-  
+
 
   return (
     // Main container
@@ -29,7 +29,9 @@ export default function Index() {
       </Text>
 
       {/* Task list */}
-      <FlatList
+      <View>
+        <Text style={styles.secondaryTitle}>Here Your All Tasks:</Text>
+<FlatList
         data={taskList}
         keyExtractor={(i) => i.id.toString()}
         renderItem={({ item }) => (
@@ -77,6 +79,8 @@ export default function Index() {
           </View>
         )}
       />
+      </View>
+      
     </View>
   );
 }
@@ -96,8 +100,8 @@ const styles = StyleSheet.create({
   },
 
   secondaryTitle: {
-    fontSize: 20,
-    fontWeight: "semibold",
+    fontSize: 18,
+    fontWeight: "bold",
     marginBottom: 4,
   },
 

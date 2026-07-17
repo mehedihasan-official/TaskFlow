@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 type Task = {
   id: number;
@@ -15,8 +15,29 @@ type TaskContextType = {
 
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
+const STORAGE_KEY = "taskflow_tasks";
+
 export function TaskProvider({ children }: { children: ReactNode }) {
   const [taskList, setTaskList] = useState<Task[]>([]);
+
+  // It will work when the app will start:
+
+  useEffect(()=>{
+    loadTask();
+  }, []);
+
+  const loadTask = async () => {
+    try {
+      const stored = await AsyncStorage.getItem(STORAGE_KEY);
+      if (stored !== null) {
+        setTaskList(JSON.parse(stored))
+      }
+    } catch (error) {
+      console.log("Error loading tasks:", console.error);
+      
+    };
+    
+  }
 
   const addTask = (title: string) => {
     if (title.trim() === "") return;
