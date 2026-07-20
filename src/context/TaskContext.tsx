@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 type Task = {
   id: number;
@@ -37,6 +38,18 @@ export function TaskProvider({ children }: { children: ReactNode }) {
       
     };
     
+  }
+
+  useEffect(()=>{
+    saveTasks();
+  },[taskList])
+
+  const saveTasks = async () => {
+    try {
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(taskList));
+    } catch (error) {
+      console.log("Error saving tasks:", error)
+    }
   }
 
   const addTask = (title: string) => {
